@@ -8,6 +8,7 @@ from pennylane import numpy
 from scipy.optimize import minimize
 import csv
 from sklearn.metrics import roc_auc_score, accuracy_score, precision_score, recall_score, f1_score, confusion_matrix, classification_report
+import time
 
 df = pd.read_csv('creditcard.csv')
 
@@ -104,8 +105,14 @@ def callback(xk):
     opt_weights.append(xk)
     #print(f"Step {len(cost_values)}: cost = {cost_val:.4f}, params = {xk}")
 
+# trace training time
+start_time = time.time()
+
 minimize(cost_function, params, method='COBYLA', callback=callback, options={'maxiter': 500})
 opt_weights = opt_weights[-1]
+
+end_time = time.time()
+execution_time = end_time - start_time
 
 # Traccia e salva la funzione di perdita durante l'addestramento
 plt.figure()
@@ -235,3 +242,4 @@ with open(file_path, "w") as file:
     file.write(f"Recall: {recall}\n")
     file.write(f"F1 Score: {f1}\n")
     file.write(f"AUC: {auc}\n")
+    file.write(f"Execution Time: {execution_time:.2f} seconds\n")
