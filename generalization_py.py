@@ -9,7 +9,7 @@ from scipy.optimize import minimize
 import csv
 from sklearn.metrics import roc_auc_score, accuracy_score, precision_score, recall_score, f1_score, confusion_matrix, classification_report
 
-df = pd.read_csv('/Users/edoardozappia/Downloads/creditcard.csv')
+df = pd.read_csv('Quantum_Autoencoder_PML_Exam/creditcard.csv')
 
 df['V29']=np.zeros((len(df['Amount']), 1))
 df['V30']=np.zeros((len(df['Amount']), 1))
