@@ -102,7 +102,7 @@ def callback(xk):
     cost_val = cost_function(xk)
     cost_values.append(cost_val)
     opt_weights.append(xk)
-    print(f"Step {len(cost_values)}: cost = {cost_val:.4f}, params = {xk}")
+    #print(f"Step {len(cost_values)}: cost = {cost_val:.4f}, params = {xk}")
 
 minimize(cost_function, params, method='COBYLA', callback=callback, options={'maxiter': 500})
 opt_weights = opt_weights[-1]
