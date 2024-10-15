@@ -23,16 +23,16 @@ clean = df[df['Class'] == 0]
 clean = clean.sample(frac=1).reset_index(drop=True)
 
 # training set: exlusively non-fraud transactions
-X_train = clean.iloc[:10].drop('Class', axis=1) #50
+X_train = clean.iloc[:200].drop('Class', axis=1) #50
 
 # validation set: exlusively non-fraud transactions
-X_validation = clean.iloc[10:15].drop('Class', axis=1) # 50 - 100
+X_validation = clean.iloc[200:250].drop('Class', axis=1) # 50 - 100
 
 # testing  set: the remaining non-fraud + all the fraud 
-fraud_test = fraud[:5]  # 40 # 400
+fraud_test = fraud[:50]  # 40 # 400
 
 # Concatenazione dei dati non fraudolenti e fraudolenti
-X_test = pd.concat([clean.iloc[15:20], fraud_test]).sample(frac=1).reset_index(drop=True) #100 - 160 # 150 - 750
+X_test = pd.concat([clean.iloc[500:700], fraud_test]).sample(frac=1).reset_index(drop=True) #100 - 160 # 150 - 750
 
 print(f"""Our testing set is composed as follows:
 
@@ -87,7 +87,7 @@ params = qml.numpy.tensor(params, requires_grad=True)
 
 # Salva l'immagine del circuito
 fig, ax = qml.draw_mpl(train_circuit)(params, X_train_transformed[0])
-fig.savefig('/Users/edoardozappia/Documents/GitHub/Quantum_Autoencoder_PML_Exam/gener/train_circuit.png')
+fig.savefig('Quantum_Autoencoder_PML_Exam/gener/train_circuit.png')
 plt.close(fig)
 
 def cost_function(weights):
@@ -104,7 +104,7 @@ def callback(xk):
     opt_weights.append(xk)
     print(f"Step {len(cost_values)}: cost = {cost_val:.4f}, params = {xk}")
 
-minimize(cost_function, params, method='COBYLA', callback=callback, options={'maxiter': 3})
+minimize(cost_function, params, method='COBYLA', callback=callback, options={'maxiter': 500})
 opt_weights = opt_weights[-1]
 
 # Traccia e salva la funzione di perdita durante l'addestramento
@@ -113,7 +113,7 @@ plt.plot(cost_values)
 plt.xlabel('Step')
 plt.ylabel('Cost')
 plt.title('Cost Function during Training')
-plt.savefig('/Users/edoardozappia/Documents/GitHub/Quantum_Autoencoder_PML_Exam/gener/training_cost_function.png')
+plt.savefig('Quantum_Autoencoder_PML_Exam/gener/training_cost_function.png')
 plt.close()
 
 # Reset the qubits indicated by wir to zero
@@ -134,7 +134,7 @@ def autoencoder(opt_weights, transaction):
 
 # Salva l'immagine del circuito
 fig, ax = qml.draw_mpl(autoencoder)(opt_weights, X_train_transformed[0])
-fig.savefig('/Users/edoardozappia/Documents/GitHub/Quantum_Autoencoder_PML_Exam/gener/test_circuit_diagram.png')
+fig.savefig('Quantum_Autoencoder_PML_Exam/gener/test_circuit_diagram.png')
 plt.close(fig)
 
 dev_validation = qml.device('default.qubit', wires=5)
