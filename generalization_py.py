@@ -9,6 +9,7 @@ from scipy.optimize import minimize
 import csv
 from sklearn.metrics import roc_auc_score, accuracy_score, precision_score, recall_score, f1_score, confusion_matrix, classification_report
 import time
+import os
 
 df = pd.read_csv('creditcard.csv')
 
