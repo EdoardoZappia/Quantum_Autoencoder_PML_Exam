@@ -9,7 +9,7 @@ from scipy.optimize import minimize
 import csv
 from sklearn.metrics import roc_auc_score, accuracy_score, precision_score, recall_score, f1_score, confusion_matrix, classification_report
 
-df = pd.read_csv('Quantum_Autoencoder_PML_Exam/creditcard.csv')
+df = pd.read_csv('creditcard.csv')
 
 df['V29']=np.zeros((len(df['Amount']), 1))
 df['V30']=np.zeros((len(df['Amount']), 1))
@@ -87,7 +87,7 @@ params = qml.numpy.tensor(params, requires_grad=True)
 
 # Salva l'immagine del circuito
 fig, ax = qml.draw_mpl(train_circuit)(params, X_train_transformed[0])
-fig.savefig('Quantum_Autoencoder_PML_Exam/gener/train_circuit.png')
+fig.savefig('/gener/train_circuit.png')
 plt.close(fig)
 
 def cost_function(weights):
@@ -113,7 +113,7 @@ plt.plot(cost_values)
 plt.xlabel('Step')
 plt.ylabel('Cost')
 plt.title('Cost Function during Training')
-plt.savefig('Quantum_Autoencoder_PML_Exam/gener/training_cost_function.png')
+plt.savefig('/gener/training_cost_function.png')
 plt.close()
 
 # Reset the qubits indicated by wir to zero
@@ -134,7 +134,7 @@ def autoencoder(opt_weights, transaction):
 
 # Salva l'immagine del circuito
 fig, ax = qml.draw_mpl(autoencoder)(opt_weights, X_train_transformed[0])
-fig.savefig('Quantum_Autoencoder_PML_Exam/gener/test_circuit_diagram.png')
+fig.savefig('/gener/test_circuit_diagram.png')
 plt.close(fig)
 
 dev_validation = qml.device('default.qubit', wires=5)
@@ -207,7 +207,7 @@ plt.xlabel('Fidelity Score')
 plt.ylabel('Frequency')
 plt.legend(loc='upper right')
 plt.title('Distribution of Fidelity Scores')
-plt.savefig('/Users/edoardozappia/Documents/GitHub/Quantum_Autoencoder_PML_Exam/gener/distributions.png')
+plt.savefig('/gener/distributions.png')
 plt.close()
 
 cm = confusion_matrix(labels, predictions)
@@ -224,5 +224,5 @@ plt.yticks([0, 1], ['Legitimate', 'Fraudulent'])
 for (i, j), val in np.ndenumerate(cm):
     plt.text(j, i, f'{val}', ha='center', va='center', color='red')
 
-plt.savefig('/Users/edoardozappia/Documents/GitHub/Quantum_Autoencoder_PML_Exam/gener/confusion_matrix.png')
+plt.savefig('/gener/confusion_matrix.png')
 plt.close()
