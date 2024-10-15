@@ -226,3 +226,12 @@ for (i, j), val in np.ndenumerate(cm):
 
 plt.savefig('gener/confusion_matrix.png')
 plt.close()
+
+# Save metrics
+file_path = os.path.join("gener", "metrics.txt")
+with open(file_path, "w") as file:
+    file.write(f"Accuracy: {accuracy}\n")
+    file.write(f"Precision: {precision}\n")
+    file.write(f"Recall: {recall}\n")
+    file.write(f"F1 Score: {f1}\n")
+    file.write(f"AUC: {auc}\n")
