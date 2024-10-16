@@ -1,6 +1,6 @@
-Accuracy: 0.792
-Precision: 0.48863636363636365
-Recall: 0.86
-F1 Score: 0.6231884057971014
-AUC: 0.8175
-Execution Time: 34.27 seconds
+Accuracy: 0.9542857142857143
+Precision: 0.7833333333333333
+Recall: 0.94
+F1 Score: 0.8545454545454545
+AUC: 0.9483333333333333
+Execution Time: 6853.19 seconds
