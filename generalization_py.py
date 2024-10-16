@@ -104,7 +104,7 @@ def callback(xk):
     cost_val = cost_function(xk)
     cost_values.append(cost_val)
     opt_weights.append(xk)
-    #print(f"Step {len(cost_values)}: cost = {cost_val:.4f}, params = {xk}")
+    print(f"Step {len(cost_values)}: cost = {cost_val:.4f}, params = {xk}")
 
 # trace training time
 start_time = time.time()
