@@ -15,6 +15,7 @@ import os
 X_train_transformed = np.load('gener/X_train_transformed.npy')
 X_validation_transformed = np.load('gener/X_validation_transformed.npy')
 X_test_transformed = np.load('gener/X_test_transformed.npy')
+labels = np.load('gener/labels.npy')
 
 def ansatz_custom_digits(params, n_wires_latent, n_wires_trash):
     params = qml.numpy.tensor(params, requires_grad=True)

@@ -64,6 +64,7 @@ X_test_transformed = pipeline.transform(X_test)
 np.save('gener/X_train_transformed.npy', X_train_transformed)
 np.save('gener/X_validation_transformed.npy', X_validation_transformed)
 np.save('gener/X_test_transformed.npy', X_test_transformed)
+np.save('gener/labels.npy', labels)
 
 def ansatz_custom_digits(params, n_wires_latent, n_wires_trash):
     params = qml.numpy.tensor(params, requires_grad=True)
