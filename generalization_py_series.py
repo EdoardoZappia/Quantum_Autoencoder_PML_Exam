@@ -11,48 +11,10 @@ from sklearn.metrics import roc_auc_score, accuracy_score, precision_score, reca
 import time
 import os
 
-df = pd.read_csv('creditcard.csv')
-
-df['V29']=np.zeros((len(df['Amount']), 1))
-df['V30']=np.zeros((len(df['Amount']), 1))
-df['V31']=np.zeros((len(df['Amount']), 1))
-df['Amount'] = np.log10(df.Amount + 0.00001)
-# Split
-fraud = df[df['Class'] == 1]
-clean = df[df['Class'] == 0]
-
-# Shuffle
-clean = clean.sample(frac=1).reset_index(drop=True)
-
-# training set: exlusively non-fraud transactions
-X_train = clean.iloc[:300].drop('Class', axis=1) 
-
-# validation set: exlusively non-fraud transactions
-X_validation = clean.iloc[300:500].drop('Class', axis=1) 
-
-# testing  set: the remaining non-fraud + all the fraud 
-fraud_test = fraud[:50]  
-
-# Concatenazione dei dati non fraudolenti e fraudolenti
-X_test = pd.concat([clean.iloc[500:800], fraud_test]).sample(frac=1).reset_index(drop=True) 
-
-print(f"""Our testing set is composed as follows:
-
-{X_test.Class.value_counts()}""")
-
-# configure our pipeline
-pipeline = Pipeline([('normalizer', Normalizer()),
-                     ('scaler', MinMaxScaler())])
-
-# get normalization parameters by fitting to the training data
-pipeline.fit(X_train);
-
-# get normalization parameters by fitting to the training data and transform the validation data with these parameters
-pipeline.transform(X_validation);
-X_validation_transformed = pipeline.transform(X_validation)
-
-# transform the training with these parameters
-X_train_transformed = pipeline.transform(X_train)
+# Carica i dati salvati
+X_train_transformed = np.load('gener/X_train_transformed.npy')
+X_validation_transformed = np.load('gener/X_validation_transformed.npy')
+X_test_transformed = np.load('gener/X_test_transformed.npy')
 
 def ansatz_custom_digits(params, n_wires_latent, n_wires_trash):
     params = qml.numpy.tensor(params, requires_grad=True)
@@ -84,11 +46,12 @@ n_wires_latent = 3
 n_wires_trash = 2
 n_wires_total = n_wires_latent + 2 * n_wires_trash +1
 
-params = np.random.random((30,))
-params = qml.numpy.tensor(params, requires_grad=True)
+# Load optimized weights
+weights_path = 'gener/weights_ottimizzati.npy'
+opt_weights_loaded = np.load(weights_path)
 
 # Salva l'immagine del circuito
-fig, ax = qml.draw_mpl(train_circuit)(params, X_train_transformed[0])
+fig, ax = qml.draw_mpl(train_circuit)(opt_weights_loaded, X_train_transformed[0])
 fig.savefig('gener/train_circuit.png')
 plt.close(fig)
 
@@ -105,10 +68,6 @@ def callback(xk):
     cost_values.append(cost_val)
     opt_weights.append(xk)
     print(f"Step {len(cost_values)}: cost = {cost_val:.4f}, params = {xk}")
-
-# Load optimized weights
-weights_path = 'gener/weights_ottimizzati.npy'
-opt_weights_loaded = np.load(weights_path)
 
 # trace training time
 start_time = time.time()
@@ -172,12 +131,6 @@ def validation(opt_weights, X_validation_transformed):
     return mean_fid, std_fid
 
 mean_fid, std_fid = validation(opt_weights, X_validation_transformed)
-
-labels = X_test['Class']
-X_test.drop('Class', axis=1, inplace=True)
-
-pipeline.transform(X_test);
-X_test_transformed = pipeline.transform(X_test)
 
 def test_supervised(opt_weights, X_test_transformed, mean_fid, std_fid, labels):
     correct_fraud = 0

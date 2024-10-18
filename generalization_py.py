@@ -54,6 +54,17 @@ X_validation_transformed = pipeline.transform(X_validation)
 # transform the training with these parameters
 X_train_transformed = pipeline.transform(X_train)
 
+labels = X_test['Class']
+X_test.drop('Class', axis=1, inplace=True)
+
+pipeline.transform(X_test);
+X_test_transformed = pipeline.transform(X_test)
+
+# Salva i dati trasformati in file separati
+np.save('gener/X_train_transformed.npy', X_train_transformed)
+np.save('gener/X_validation_transformed.npy', X_validation_transformed)
+np.save('gener/X_test_transformed.npy', X_test_transformed)
+
 def ansatz_custom_digits(params, n_wires_latent, n_wires_trash):
     params = qml.numpy.tensor(params, requires_grad=True)
     for j in range(6):
@@ -168,12 +179,6 @@ def validation(opt_weights, X_validation_transformed):
     return mean_fid, std_fid
 
 mean_fid, std_fid = validation(opt_weights, X_validation_transformed)
-
-labels = X_test['Class']
-X_test.drop('Class', axis=1, inplace=True)
-
-pipeline.transform(X_test);
-X_test_transformed = pipeline.transform(X_test)
 
 def test_supervised(opt_weights, X_test_transformed, mean_fid, std_fid, labels):
     correct_fraud = 0
