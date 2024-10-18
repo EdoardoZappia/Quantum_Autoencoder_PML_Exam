@@ -25,16 +25,16 @@ clean = df[df['Class'] == 0]
 clean = clean.sample(frac=1).reset_index(drop=True)
 
 # training set: exlusively non-fraud transactions
-X_train = clean.iloc[:300].drop('Class', axis=1) 
+X_train = clean.iloc[:1000].drop('Class', axis=1) 
 
 # validation set: exlusively non-fraud transactions
-X_validation = clean.iloc[300:500].drop('Class', axis=1) 
+X_validation = clean.iloc[1000:2000].drop('Class', axis=1) 
 
 # testing  set: the remaining non-fraud + all the fraud 
 fraud_test = fraud[:50]  
 
 # Concatenazione dei dati non fraudolenti e fraudolenti
-X_test = pd.concat([clean.iloc[500:800], fraud_test]).sample(frac=1).reset_index(drop=True) 
+X_test = pd.concat([clean.iloc[2000:2950], fraud_test]).sample(frac=1).reset_index(drop=True) 
 
 print(f"""Our testing set is composed as follows:
 
@@ -121,7 +121,7 @@ def callback(xk):
 # trace training time
 start_time = time.time()
 
-minimize(cost_function, params, method='COBYLA', callback=callback, options={'maxiter': 5})
+minimize(cost_function, params, method='COBYLA', callback=callback, options={'maxiter': 200})
 opt_weights = opt_weights[-1]
 
 end_time = time.time()

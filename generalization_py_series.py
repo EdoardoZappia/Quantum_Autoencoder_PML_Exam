@@ -73,7 +73,7 @@ def callback(xk):
 # trace training time
 start_time = time.time()
 
-minimize(cost_function, opt_weights_loaded, method='COBYLA', callback=callback, options={'maxiter': 5})
+minimize(cost_function, opt_weights_loaded, method='COBYLA', callback=callback, options={'maxiter': 200})
 opt_weights = opt_weights[-1]
 
 end_time = time.time()
