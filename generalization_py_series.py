@@ -106,10 +106,14 @@ def callback(xk):
     opt_weights.append(xk)
     print(f"Step {len(cost_values)}: cost = {cost_val:.4f}, params = {xk}")
 
+# Load optimized weights
+weights_path = 'gener/weights_ottimizzati.npy'
+opt_weights_loaded = np.load(weights_path)
+
 # trace training time
 start_time = time.time()
 
-minimize(cost_function, params, method='COBYLA', callback=callback, options={'maxiter': 5})
+minimize(cost_function, opt_weights_loaded, method='COBYLA', callback=callback, options={'maxiter': 5})
 opt_weights = opt_weights[-1]
 
 end_time = time.time()
