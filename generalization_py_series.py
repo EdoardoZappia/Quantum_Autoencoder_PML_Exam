@@ -51,6 +51,8 @@ n_wires_total = n_wires_latent + 2 * n_wires_trash +1
 weights_path = 'gener/weights_ottimizzati.npy'
 opt_weights_loaded = np.load(weights_path)
 
+print("PESI PRECEDENTI:", opt_weights_loaded)
+
 # Salva l'immagine del circuito
 fig, ax = qml.draw_mpl(train_circuit)(opt_weights_loaded, X_train_transformed[0])
 fig.savefig('gener/train_circuit.png')
@@ -73,7 +75,7 @@ def callback(xk):
 # trace training time
 start_time = time.time()
 
-minimize(cost_function, opt_weights_loaded, method='COBYLA', callback=callback, options={'maxiter': 100})
+minimize(cost_function, opt_weights_loaded, method='COBYLA', callback=callback, options={'maxiter': 3})
 opt_weights = opt_weights[-1]
 
 end_time = time.time()
@@ -82,6 +84,8 @@ execution_time = end_time - start_time
 # Save optimized weights
 weights_path = 'gener/weights_ottimizzati.npy'
 np.save(weights_path, opt_weights)
+
+print(opt_weights)
 
 # Traccia e salva la funzione di perdita durante l'addestramento
 plt.figure()

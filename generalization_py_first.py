@@ -121,7 +121,7 @@ def callback(xk):
 # trace training time
 start_time = time.time()
 
-minimize(cost_function, params, method='COBYLA', callback=callback, options={'maxiter': 100})
+minimize(cost_function, params, method='COBYLA', callback=callback, options={'maxiter': 3})
 opt_weights = opt_weights[-1]
 
 end_time = time.time()
@@ -130,3 +130,5 @@ execution_time = end_time - start_time
 # Save optimized weights
 weights_path = 'gener/weights_ottimizzati.npy'
 np.save(weights_path, opt_weights)
+
+print(opt_weights)
