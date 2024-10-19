@@ -75,6 +75,7 @@ def callback(xk):
 # trace training time
 start_time = time.time()
 
+print("Starting optimization with weights: ", opt_weights_loaded)
 minimize(cost_function, opt_weights_loaded, method='COBYLA', callback=callback, options={'maxiter': 3})
 opt_weights = opt_weights[-1]
 
@@ -85,7 +86,7 @@ execution_time = end_time - start_time
 weights_path = 'gener/weights_ottimizzati.npy'
 np.save(weights_path, opt_weights)
 
-print(opt_weights)
+print("PESI OTTIMIZZATI:", opt_weights)
 
 # Traccia e salva la funzione di perdita durante l'addestramento
 plt.figure()
