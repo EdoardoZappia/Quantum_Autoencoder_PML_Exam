@@ -50,7 +50,9 @@ n_wires_total = n_wires_latent + 2 * n_wires_trash +1
 
 # Load optimized weights
 weights_path = 'gener/weights_ottimizzati.npy'
-opt_weights_loaded = np.load(weights_path)
+# Load optimized weights and ensure they are trainable
+opt_weights_loaded = qml.numpy.tensor(np.load(weights_path), requires_grad=True)
+
 
 print("PESI PRECEDENTI:", opt_weights_loaded)
 
