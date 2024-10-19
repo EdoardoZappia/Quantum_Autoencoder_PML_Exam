@@ -66,7 +66,12 @@ def cost_function(weights):
 
 cost_values = []
 opt_weights = []
+
 def callback(xk):
+    # Correzione manuale per la continuità dell'ottimizzazione con più file
+    if xk[0] == opt_weights_loaded[0] + 1:
+        xk[0] = opt_weights_loaded[0]
+
     cost_val = cost_function(xk)
     cost_values.append(cost_val)
     opt_weights.append(xk)
