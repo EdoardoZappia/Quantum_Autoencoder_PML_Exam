@@ -60,7 +60,7 @@ plt.close(fig)
 
 def cost_function(weights):
     probabilities = [train_circuit(weights, transaction) for transaction in X_train_transformed]
-    #print(probabilities)
+    print("Weights: ", weights)
     cost_value = np.sum([p[1] for p in probabilities])/X_train_transformed.shape[0]
     return cost_value
 
