@@ -5,6 +5,7 @@ from sklearn.preprocessing import Normalizer, MinMaxScaler
 from sklearn.pipeline import Pipeline
 import pennylane as qml
 from pennylane import numpy
+from pennylane.optimize import AdamOptimizer
 from scipy.optimize import minimize
 import csv
 from sklearn.metrics import roc_auc_score, accuracy_score, precision_score, recall_score, f1_score, confusion_matrix, classification_report
