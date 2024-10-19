@@ -75,7 +75,7 @@ def callback(weights, cost_value):
 
 # Ottimizzazione con Adam
 optimizer = AdamOptimizer(stepsize=0.1)
-max_steps = 3
+max_steps = 100
 
 # trace training time
 start_time = time.time()

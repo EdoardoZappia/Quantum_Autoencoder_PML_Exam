@@ -120,7 +120,7 @@ def callback(weights, cost_value):
 
 # Ottimizzazione con Adam
 optimizer = AdamOptimizer(stepsize=0.1)
-max_steps = 3
+max_steps = 100
 
 # trace training time
 start_time = time.time()
@@ -140,4 +140,4 @@ execution_time = end_time - start_time
 weights_path = 'gener/weights_ottimizzati.npy'
 np.save(weights_path, opt_weights)
 
-print(opt_weights)
+print("PARAMETRI OTTIMIZZATI:", opt_weights)
