@@ -65,24 +65,25 @@ def cost_function(weights):
     return cost_value
 
 cost_values = []
-opt_weights = []
 
-def callback(xk):
-    # Correzione manuale per la continuità dell'ottimizzazione con più file
-    if xk[0] == opt_weights_loaded[0] + 1:
-        xk[0] = opt_weights_loaded[0]
+def callback(weights, cost_value):
+    cost_values.append(cost_value)
+    print(f"Step {len(cost_values)}: cost = {cost_value:.4f}, params = {weights}")
 
-    cost_val = cost_function(xk)
-    cost_values.append(cost_val)
-    opt_weights.append(xk)
-    print(f"Step {len(cost_values)}: cost = {cost_val:.4f}, params = {xk}")
+# Ottimizzazione con Adam
+optimizer = AdamOptimizer(stepsize=0.1)
+max_steps = 3
 
 # trace training time
 start_time = time.time()
 
-print("Starting optimization with weights: ", opt_weights_loaded)
-minimize(cost_function, opt_weights_loaded, method='COBYLA', callback=callback, options={'maxiter': 3})
-opt_weights = opt_weights[-1]
+# Ciclo di ottimizzazione
+params = optimizer.step_and_cost(cost_function, params)[0]
+for step in range(max_steps):
+    params, cost_val = optimizer.step_and_cost(cost_function, params)
+    callback(params, cost_val)
+
+opt_weights = params
 
 end_time = time.time()
 execution_time = end_time - start_time
