@@ -78,7 +78,7 @@ max_steps = 3
 start_time = time.time()
 
 # Ciclo di ottimizzazione
-params = optimizer.step_and_cost(cost_function, params)[0]
+params = optimizer.step_and_cost(cost_function, opt_weights_loaded)[0]
 for step in range(max_steps):
     params, cost_val = optimizer.step_and_cost(cost_function, params)
     callback(params, cost_val)
